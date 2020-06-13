@@ -31,9 +31,7 @@ echo "Installing ffmpeg"
 echo "================="
 
 PATH="$PATH:/snap/bin/ffmpeg"
-snap install ffmpeg
-# shellcheck disable=SC1090
-source ~/.bashrc
+snap list | grep ffmpeg || snap install ffmpeg
 
 echo "====================="
 echo "Deploying application"
