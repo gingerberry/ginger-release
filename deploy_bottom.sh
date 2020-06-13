@@ -39,7 +39,8 @@ echo "====================="
 
 find /var/www/html -xdev -mindepth 1 -printf "%d\t%y\t%p\0" | sort -z -r -n | cut -z -f3- | xargs -0 -r -- rm -d --
 
-pushd /var/www/html &> /dev/null || exit
+mkdir /var/www/html/gingerberry
+pushd /var/www/html/gingerberry &> /dev/null || exit
 
 git clone https://github.com/gingerberry/ginger-bottom.git  .
 sudo apt install php-simplexml
@@ -51,11 +52,11 @@ popd &> /dev/null || exit
 echo "=================="
 echo "Running smoke test"
 echo "=================="
-LIVENESS_PROBE="$(curl -I --location --request OPTIONS 'http://localhost:80' -w "%{http_code}" -o /dev/null -s)"
+LIVENESS_PROBE="$(curl -I --location --request OPTIONS 'http://localhost:80/gingerberry/' -w "%{http_code}" -o /dev/null -s)"
 
 if [ "$LIVENESS_PROBE" != "200" ]; then
         echo "Health check failed. Expected 200 got $LIVENESS_PROBE"
        exit 1
 fi
 
-echo "Successfully deployed gingerberry! :)"
+echo "Successfully deployed gingerberry bottom! :)"
