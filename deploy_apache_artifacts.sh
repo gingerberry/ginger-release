@@ -2,6 +2,18 @@
 set -euo pipefail
 
 SYSTEM_HOSTNAME="${1}"
+BOTTOM_PORT="${2}"
+TOP_PORT="${3}"
+
+replaceInFile() {
+    REPLACE_STRING="${1}"
+    FILE="${2}"
+
+    TMP_FILE="$(mktemp tmp.XXXXXXX)"
+    sed -E "s/${REPLACE_STRING}/g" < "$FILE" > "$TMP_FILE"
+    cat "$TMP_FILE" > "$FILE"
+    rm "$TMP_FILE"
+}
 
 # Install php and apache2 server.
 echo "=============="
@@ -72,10 +84,9 @@ pushd /var/www/html/ginger &> /dev/null || exit
 
 git clone https://github.com/gingerberry/ginger-view.git .
 
-TMP_FILE="$(mktemp tmp.XXXXXXX)"
-sed -E "s/localhost/${SYSTEM_HOSTNAME}/g" < js/config.js > "$TMP_FILE"
-cat "$TMP_FILE" > js/config.js
-rm "$TMP_FILE"
+replaceInFile "localhost/${SYSTEM_HOSTNAME}" "js/config.js"
+replaceInFile "8000/${BOTTOM_PORT}" "js/config.js"
+replaceInFile "9090/${TOP_PORT}" "js/config.js"
 
 popd &> /dev/null || exit
 
