@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
+
+SYSTEM_HOSTNAME="${1}"
+
 # Install php and apache2 server.
 echo "=============="
 echo "Installing php"
@@ -68,6 +71,11 @@ mkdir /var/www/html/ginger
 pushd /var/www/html/ginger &> /dev/null || exit
 
 git clone https://github.com/gingerberry/ginger-view.git .
+
+TMP_FILE="$(mktemp tmp.XXXXXXX)"
+sed -E "s/localhost/${SYSTEM_HOSTNAME}/g" < js/config.js > "$TMP_FILE"
+cat "$TMP_FILE" > js/config.js
+rm "$TMP_FILE"
 
 popd &> /dev/null || exit
 
