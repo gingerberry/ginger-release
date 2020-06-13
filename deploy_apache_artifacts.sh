@@ -21,6 +21,8 @@ sed -E 's/(AllowOverride) None/\1 All/g' < /etc/apache2/apache2.conf > "$TMP_FIL
 cat "$TMP_FILE" > /etc/apache2/apache2.conf
 rm "$TMP_FILE"
 
+echo "AddDefaultCharset utf-8" >> /etc/apache2/apache2.conf
+
 sudo apt-get install php7.2-mysql
 sudo apt install php-simplexml
 
@@ -33,9 +35,9 @@ echo "================="
 PATH="$PATH:/snap/bin/ffmpeg"
 snap list | grep ffmpeg || snap install ffmpeg
 
-echo "====================="
-echo "Deploying application"
-echo "====================="
+echo "======================="
+echo "Deploying ginger-bottom"
+echo "======================="
 
 find /var/www/html -xdev -mindepth 1 -printf "%d\t%y\t%p\0" | sort -z -r -n | cut -z -f3- | xargs -0 -r -- rm -d --
 
@@ -48,7 +50,6 @@ php composer.phar update
 
 popd &> /dev/null || exit
 
-
 echo "=================="
 echo "Running smoke test"
 echo "=================="
@@ -59,4 +60,15 @@ if [ "$LIVENESS_PROBE" != "200" ]; then
        exit 1
 fi
 
-echo "Successfully deployed gingerberry bottom! :)"
+echo "====================="
+echo "Deploying ginger-view"
+echo "====================="
+
+mkdir /var/www/html/ginger
+pushd /var/www/html/ginger &> /dev/null || exit
+
+git clone https://github.com/gingerberry/ginger-view.git .
+
+popd &> /dev/null || exit
+
+echo "Successfully deployed gingerberry apache artifacts! :)"
