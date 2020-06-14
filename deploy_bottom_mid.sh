@@ -82,6 +82,8 @@ echo "====================="
 mkdir /var/www/html/ginger
 pushd /var/www/html/ginger &> /dev/null || exit
 
+sudo chmod -R a+w .
+
 git clone https://github.com/gingerberry/ginger-view.git .
 
 replaceInFile "localhost/${SYSTEM_HOSTNAME}" "js/config.js"
