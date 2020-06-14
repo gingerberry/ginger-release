@@ -13,6 +13,8 @@ replaceInFile() {
     rm "$TMP_FILE"
 }
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 pushd "$HOME" &> /dev/null
 
 echo "================="
@@ -30,7 +32,7 @@ pushd apache-tomcat-8.5.56 &> /dev/null
 chmod +x bin/startup.sh
 chmod +x bin/shutdown.sh
 
-mv assets/tomcat-users.xml conf/tomcat-users.xml
+mv "${DIR}/assets/tomcat-users.xml" "conf/tomcat-users.xml"
 replaceInFile "8080/${TOMCAT_PORT}" "conf/server.xml"
 
 ./bin/startup.sh
