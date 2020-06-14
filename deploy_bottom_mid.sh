@@ -39,6 +39,7 @@ rm "$TMP_FILE"
 echo "AddDefaultCharset utf-8" >> /etc/apache2/apache2.conf
 
 sudo apt-get install php7.2-mysql
+sudo apt-get install php7.2-gd
 sudo apt install php-simplexml
 
 systemctl restart apache2
