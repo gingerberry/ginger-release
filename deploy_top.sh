@@ -32,7 +32,7 @@ pushd apache-tomcat-8.5.56 &> /dev/null
 chmod +x bin/startup.sh
 chmod +x bin/shutdown.sh
 
-mv "${DIR}/assets/tomcat-users.xml" "conf/tomcat-users.xml"
+cp "${DIR}/assets/tomcat-users.xml" "conf/tomcat-users.xml"
 replaceInFile "8080/${TOMCAT_PORT}" "conf/server.xml"
 
 ./bin/startup.sh
@@ -50,6 +50,9 @@ echo "Installing App"
 echo "=============="
 rm -rf ginger-top
 git clone https://github.com/gingerberry/ginger-top.git
+
+pushd ginger-top &> /dev/null
 mvn clean tomcat7:deploy
+popd &> /dev/null
 
 popd &> /dev/null
