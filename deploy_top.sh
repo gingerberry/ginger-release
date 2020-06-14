@@ -17,6 +17,11 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 pushd "$HOME" &> /dev/null
 
+echo "================"
+echo "Installing Maven"
+echo "================"
+apt install maven <<< "Y"
+
 echo "================="
 echo "Installing Tomcat"
 echo "================="
@@ -38,12 +43,6 @@ replaceInFile "8080/${TOMCAT_PORT}" "conf/server.xml"
 ./bin/startup.sh
 
 popd &> /dev/null
-
-
-echo "================"
-echo "Installing Maven"
-echo "================"
-apt install maven <<< "Y"
 
 echo "=============="
 echo "Installing App"
