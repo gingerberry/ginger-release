@@ -56,3 +56,5 @@ mvn clean tomcat7:deploy
 popd &> /dev/null
 
 popd &> /dev/null
+
+echo "Successfully deployed gingerberry top! :)"
