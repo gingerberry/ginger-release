@@ -89,4 +89,4 @@ replaceInFile "9090/${TOP_PORT}" "js/config.js"
 
 popd &> /dev/null || exit
 
-echo "Successfully deployed gingerberry apache artifacts! :)"
+echo "Successfully deployed gingerberry bottom and mid! :)"
