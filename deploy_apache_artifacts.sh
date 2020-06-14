@@ -47,12 +47,14 @@ echo "================="
 echo "Installing ffmpeg"
 echo "================="
 
-PATH="$PATH:/snap/bin/ffmpeg"
-snap list | grep ffmpeg || snap install ffmpeg
+sudo apt-get install ffmpeg
 
 echo "======================="
 echo "Deploying ginger-bottom"
 echo "======================="
+
+mkdir -p /tmp/tmp_frames
+sudo chmod o+w /tmp/tmp_frames
 
 find /var/www/html -xdev -mindepth 1 -printf "%d\t%y\t%p\0" | sort -z -r -n | cut -z -f3- | xargs -0 -r -- rm -d --
 
