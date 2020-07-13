@@ -50,6 +50,12 @@ echo "=============="
 rm -rf ginger-top
 git clone https://github.com/gingerberry/ginger-top.git
 
+echo "An editor will be opened so you can edit your configuration..." && sleep 3
+
+vim "src/main/java/com/gingerberry/Config.java"
+
+echo "Configuration edited successfully!"
+
 pushd ginger-top &> /dev/null
 mvn clean tomcat7:deploy
 popd &> /dev/null

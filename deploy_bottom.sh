@@ -1,20 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SYSTEM_HOSTNAME="${1}"
-BOTTOM_PORT="${2}"
-TOP_PORT="${3}"
-
-replaceInFile() {
-    REPLACE_STRING="${1}"
-    FILE="${2}"
-
-    TMP_FILE="$(mktemp tmp.XXXXXXX)"
-    sed -E "s/${REPLACE_STRING}/g" < "$FILE" > "$TMP_FILE"
-    cat "$TMP_FILE" > "$FILE"
-    rm "$TMP_FILE"
-}
-
 # Install php and apache2 server.
 echo "=============="
 echo "Installing php"
@@ -60,6 +46,13 @@ mkdir /var/www/html/gingerberry
 pushd /var/www/html/gingerberry &> /dev/null || exit
 
 git clone https://github.com/gingerberry/ginger-bottom.git  .
+
+echo "An editor will be opened so you can edit your configuration..." && sleep 3
+
+vim gingerberry/Config.php
+
+echo "Configuration edited successfully!"
+
 sudo apt install php-simplexml
 php composer.phar update
 
@@ -75,21 +68,4 @@ if [ "$LIVENESS_PROBE" != "200" ]; then
        exit 1
 fi
 
-echo "====================="
-echo "Deploying ginger-view"
-echo "====================="
-
-mkdir /var/www/html/ginger
-pushd /var/www/html/ginger &> /dev/null || exit
-
-sudo chmod -R a+w .
-
-git clone https://github.com/gingerberry/ginger-view.git .
-
-replaceInFile "localhost/${SYSTEM_HOSTNAME}" "js/config.js"
-replaceInFile "8000/${BOTTOM_PORT}" "js/config.js"
-replaceInFile "9090/${TOP_PORT}" "js/config.js"
-
-popd &> /dev/null || exit
-
-echo "Successfully deployed gingerberry bottom and mid! :)"
+echo "Successfully deployed gingerberry bottom! :)"
