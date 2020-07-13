@@ -52,7 +52,7 @@ git clone https://github.com/gingerberry/ginger-top.git
 
 echo "An editor will be opened so you can edit your configuration..." && sleep 3
 
-vim "src/main/java/com/gingerberry/Config.java"
+vim "ginger-top/src/main/java/com/gingerberry/Config.java"
 
 echo "Configuration edited successfully!"
 
