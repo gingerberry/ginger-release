@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-TOMCAT_PORT="$1"
+TOMCAT_PORT="9090"
 
 replaceInFile() {
     REPLACE_STRING="${1}"
